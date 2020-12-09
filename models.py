@@ -25,5 +25,4 @@ class User(db.Model):
         """ representation of instances """
 
         return f"<User {self.id} {self.first_name} {self.last_name} {self.image_url}"
-
-    
+  

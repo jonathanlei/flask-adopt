@@ -8,6 +8,9 @@
   {% for user in users %}
   <li><a href="/users/{{user.id}}">{{ user.first_name }} {{ user.last_name }}</a></li>
 </ul>
-<button><a href="/users/new">Add user</a></button>
+  {% endfor %}
+  <form action="/users/new">
+    <button class="btn btn-secondary" >Add user</button>
+  </form>
 
 {% endblock %}

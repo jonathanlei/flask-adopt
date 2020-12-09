@@ -5,13 +5,21 @@
 {% block content %}
 <h1>Create User</h1>
 <form action="/users/new" method="POST">
-  <label for="first_name">First Name</label>
-  <input name="first_name" type="text" placeholder="Enter a firstname">
-  <label for="last_name">Last Name</label>
-  <input name="last_name" type="text" placeholder="Enter a lastname">
-  <label for="image_url">Image URL</label>
-  <input name="image_url" type="url" placeholder="Provide an image of this user">
-  <button type="submit">Add</button>
+  <div>
+    <label for="first_name">First Name</label>
+    <div><input name="first_name" type="text" required placeholder="Enter a firstname"></div>
+  </div>
+  <div>
+    <label for="last_name">Last Name</label>
+    <div> <input name="last_name" type="text" placeholder="Enter a lastname"></div>
+   
+  </div>
+  <div>
+    <label for="image_url">Image URL</label>
+    <div><input name="image_url" type="url" placeholder="Provide an image of this user"></div>
+  </div>
+
+  <button class="btn btn-success" type="submit">Add</button>
 </form>
 
 {% endblock %}

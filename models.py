@@ -22,6 +22,7 @@ class User(db.Model):
     first_name = db.Column(db.String(30), nullable=False)
     last_name = db.Column(db.String(30), nullable=False, default='')
     image_url = db.Column(db.String, nullable=False, default='')
+    posts = db.relationship("Post", backref="user")
 
     def __repr__(self):
         """ representation of instances """
@@ -46,6 +47,4 @@ class Post(db.Model):
                            server_default=func.now(),
                            nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-    # relationship between users and posts
-    user = db.relationship("User", backref="posts")
     

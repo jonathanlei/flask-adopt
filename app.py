@@ -101,10 +101,12 @@ def edit_user_info(user_id):
 def delete_user(user_id):
     """ delete a user from database and redirect to users page"""
 
-    user = User.query.get_or_404(user_id)
-    db.session.delete(user)
+    users_posts = Post.query.filter_by(user_id=user_id)
+    users_posts.delete()
+    User.query.filter_by(id=user_id).delete()
     db.session.commit()
     return redirect("/users")
+
 
 @app.route("/users/<int:user_id>/posts/new")
 def show_new_post_form(user_id):
@@ -125,5 +127,53 @@ def new_post_submission(user_id):
         return redirect(f"/users/{user_id}/posts/new")
     new_post = Post(title=title, content=content, user_id=user_id)
     db.session.add(new_post)
+    db.session.commit()
+    return redirect(f"/users/{user_id}")
+
+
+@app.route('/posts/<int:post_id>')
+def show_post_info(post_id):
+    """ Show indivdual post info with options to edit or delete """
+
+    post = Post.query.get_or_404(post_id)
+    return render_template('post-info.html', post=post)
+
+
+@app.route('/posts/<int:post_id>/edit')
+def show_post_edit_form(post_id):
+    """ Show form to edit a post """
+
+    post = Post.query.get_or_404(post_id)
+    return render_template('edit-post.html', post=post)
+
+
+@app.route('/posts/<int:post_id>/edit', methods=["POST"])
+def edit_post_info(post_id):
+    """ Edit the title and content of a post """
+
+    title = request.form["title"]
+    if not title:
+        flash("Please enter a title")
+        return redirect(f"/posts/{post_id}/edit")
+    content = request.form['content']
+    if not content:
+        flash("Please enter a content")
+        return redirect(f"/posts/{post_id}/edit")
+
+    post = Post.query.get_or_404(post_id)
+    post.title = title
+    post.content = content
+    db.session.commit()
+
+    return redirect(f"/posts/{post_id}")
+
+
+@app.route('/posts/<int:post_id>/delete', methods=["POST"])
+def delete_post(post_id):
+    """ Delete a user's post """
+
+    post = Post.query.get_or_404(post_id)
+    user_id = post.user_id
+    Post.query.filter_by(id=post_id).delete()
     db.session.commit()
     return redirect(f"/users/{user_id}")

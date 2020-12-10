@@ -106,6 +106,7 @@ def delete_user(user_id):
     User.query.filter_by(id=user_id).delete()
     db.session.commit()
     return redirect("/users")
+############### 
 
 
 @app.route("/users/<int:user_id>/posts/new")
@@ -117,15 +118,16 @@ def show_new_post_form(user_id):
 
 @app.route("/users/<int:user_id>/posts/new", methods=["POST"])
 def new_post_submission(user_id):
-    title = request.form['title']
-    if not title:
-        flash("Please enter a title")
+    """ get form data, create new post in the database
+    and redirect to user info page"""
+    user = User.query.get_or_404(user_id)
+    title = request.form["title"]
+    content = request.form["content"]
+    if not (title and content):
+        flash("Please fill out all fields")
         return redirect(f"/users/{user_id}/posts/new")
-    content = request.form['content']
-    if not content:
-        flash("Please enter a content")
-        return redirect(f"/users/{user_id}/posts/new")
-    new_post = Post(title=title, content=content, user_id=user_id)
+    new_post = Post(title=title, content=content)
+    user.posts.append(new_post)
     db.session.add(new_post)
     db.session.commit()
     return redirect(f"/users/{user_id}")
@@ -152,12 +154,9 @@ def edit_post_info(post_id):
     """ Edit the title and content of a post """
 
     title = request.form["title"]
-    if not title:
-        flash("Please enter a title")
-        return redirect(f"/posts/{post_id}/edit")
     content = request.form['content']
-    if not content:
-        flash("Please enter a content")
+    if not (title and content):
+        flash("Please fill out all fields")
         return redirect(f"/posts/{post_id}/edit")
 
     post = Post.query.get_or_404(post_id)

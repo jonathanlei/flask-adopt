@@ -10,7 +10,7 @@
 <form id="post-info" action="/users/{{post.user_id}}">
   <button type="submit" class="btn btn-outline-primary">Cancel</button>
   <button formaction="/posts/{{post.id}}/edit" type="submit" class="btn btn-primary">Edit</button>
-  <button formaction="/posts/{{post.id}}/delete" method="POST" type="submit" class="btn btn-danger">Delete</button>
+  <button formaction="/posts/{{post.id}}/delete" formmethod="POST" type="submit" class="btn btn-danger">Delete</button>
 </form>
 
 {% endblock %}

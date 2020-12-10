@@ -8,11 +8,14 @@
         <label for="title">Title</label>
         <input  required type="text" name="title" id="title">
     </div>
-    <div>
+    <div class="d-flex">
         <label for="content">Content</label>
         <textarea required name="content" id="content" rows="4" cols="50"></textarea>
     </div>
-    <button class="btn btn-info" formaction="/users/{{user.id}}" formmethod="GET">Cancel</button>
-    <button type= "submit" class="btn btn-success">Add</button>
+    <div>
+        <button class="btn btn-info" formaction="/users/{{user.id}}" formmethod="GET">Cancel</button>
+        <button type= "submit" class="btn btn-success">Add</button>
+    </div>
+    
 </form>
 {% endblock %}

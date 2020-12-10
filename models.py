@@ -47,4 +47,3 @@ class Post(db.Model):
                            server_default=func.now(),
                            nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-    

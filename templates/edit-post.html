@@ -8,11 +8,11 @@
 <form id="edit-post" action="/posts/{{post.id}}/edit" method="POST">
   <div> 
       <label for="title">Title</label>
-      <input value="{{post.title}}" required type="text" name="title" id="title">
+      <input value="{{post.title}}" type="text" name="title" id="title">
   </div>
   <div>
       <label for="content">Post Content</label>
-      <textarea value="{{post.content}}" required name="content" id="content" rows="4" cols="50"></textarea>
+      <textarea name="content" id="content" rows="4" cols="50">{{post.content}}</textarea>
   </div>
   <button class="btn btn-info" formaction="/users/{{post.user_id}}" formmethod="GET">Cancel</button>
   <button type="submit" class="btn btn-success">Edit</button>

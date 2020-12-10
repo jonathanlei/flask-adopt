@@ -35,7 +35,7 @@ def show_users():
 
 
 @app.route('/users/new')
-def show_add_form():
+def show_new_user_form():
     """ display POST form to add new user """
 
     return render_template('new-user.html')
@@ -47,6 +47,9 @@ def new_user_submission():
      and redirect to users page """
 
     first_name = request.form["first_name"]
+    if not first_name:
+        flash('Please enter a first name.')
+        return redirect('/users/new')
     last_name = request.form["last_name"]
     image_url = request.form["image_url"]
     new_user = User(first_name=first_name,
@@ -59,7 +62,9 @@ def new_user_submission():
 
 @app.route("/users/<int:user_id>")
 def show_user_info(user_id):
-    """show user information based on the id, redirect to 404 if id not found"""
+    """show user information based on the id,
+       redirect to 404 if id not found"""
+
     user = User.query.get_or_404(user_id)
     return render_template("user-info.html", user=user)
 
@@ -67,6 +72,7 @@ def show_user_info(user_id):
 @app.route("/users/<int:user_id>/edit")
 def show_edit_form(user_id):
     """ show the edit information form for the given user id"""
+
     user = User.query.get_or_404(user_id)
     return render_template("edit-user.html", user=user)
 
@@ -75,9 +81,12 @@ def show_edit_form(user_id):
 def edit_user_info(user_id):
     """ collect form data and update user information in the database,
     redirect to user info page"""
-    user = User.query.get_or_404(user_id)
 
+    user = User.query.get_or_404(user_id)
     first_name = request.form["first_name"]
+    if not first_name:
+        flash('Please enter a first name.')
+        return redirect(f"/users/{user_id}/edit")
     last_name = request.form["last_name"]
     image_url = request.form["image_url"]
 
@@ -91,6 +100,7 @@ def edit_user_info(user_id):
 @app.route("/users/<int:user_id>/delete", methods=["POST"])
 def delete_user(user_id):
     """ delete a user from database and redirect to users page"""
+
     user = User.query.get_or_404(user_id)
     db.session.delete(user)
     db.session.commit()

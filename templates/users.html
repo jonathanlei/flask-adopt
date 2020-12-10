@@ -4,11 +4,12 @@
 
 {% block content %}
 <h1>Users</h1>
-<ul>
+<ul id="users-list">
   {% for user in users %}
   <li><a href="/users/{{user.id}}">{{ user.first_name }} {{ user.last_name }}</a></li>
-</ul>
   {% endfor %}
+</ul>
+<!-- bootstrap link (a) button -->
   <form action="/users/new">
     <button class="btn btn-secondary" >Add user</button>
   </form>

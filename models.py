@@ -24,5 +24,5 @@ class User(db.Model):
     def __repr__(self):
         """ representation of instances """
 
-        return f"<User {self.id} {self.first_name} {self.last_name} {self.image_url}"
+        return f"<User {self.id} {self.first_name} {self.last_name} {self.image_url}>"
   

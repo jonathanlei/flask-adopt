@@ -3,8 +3,8 @@
 {% block title%} User Information {% endblock %}
 {% block content%}
     
-    <div>
-        <img src="{{user.image_url}}" alt="no image">
+    <div id="user-info">
+        <img src="{% if user.image_url %}{{user.image_url}}{% else %}/static/assets/person.png{% endif %}" alt="">
         <h1> {{user.first_name}} {{user.last_name}}</h1>
         <form action="/users/{{user.id}}/edit">
             <button class="btn btn-primary">Edit</button>

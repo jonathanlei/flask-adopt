@@ -2,23 +2,21 @@
 {% block title %} Edit a user {% endblock %}
 {% block content %}
 <h1>Edit a user</h1>
-<form action="/users/{{user.id}}/edit" method="POST">
+<form id="edit-user-form" action="/users/{{user.id}}/edit" method="POST">
     <div>
         <label for="first_name">First Name</label>
-        <div><input name="first_name" type="text" required value="{{user.first_name}}"></div>
+        <div><input id="first_name" name="first_name" type="text" value="{{user.first_name}}"></div>
         
     </div>
     <div>   
         <label for="last_name">Last Name</label>
-        <div><input name="last_name" type="text" value="{{user.last_name}}"></div>
+        <div><input id="last_name" name="last_name" type="text" value="{{user.last_name}}"></div>
     </div>
     <div>
         <label for="image_url">Image URL</label>
-        <div><input name="image_url" type="url" value="{{user.image_url}}"></div>
+        <div><input id="image_url" name="image_url" type="url" value="{{user.image_url}}"></div>
     </div>
-    <form action="/users/{{user.id}}">
-        <button class="btn btn-outline-primary">Cancel</button>
-    </form>
+        <button formaction="/users/{{user.id}}" formmethod="GET" class="btn btn-outline-primary">Cancel</button>
     
     <button class="btn btn-success" type="submit">Save</button>
   </form>

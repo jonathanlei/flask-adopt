@@ -1,7 +1,7 @@
 """Blogly application."""
 
 from flask import Flask, redirect, render_template, session, request, flash
-from models import User, db, connect_db
+from models import User, Post, db, connect_db
 from flask_debugtoolbar import DebugToolbarExtension
 
 app = Flask(__name__)
@@ -30,7 +30,7 @@ def show_users():
     """ display list of users with links to individual pages
         also have link to add user form """
 
-    users = User.query.all()
+    users = db.session.query(User).order_by('last_name', 'first_name')
     return render_template('users.html', users=users)
 
 
@@ -42,7 +42,7 @@ def show_new_user_form():
 
 
 @app.route('/users/new', methods=["POST"])
-def new_user_submission():
+def new_user_info_submission():
     """ handle new user form submission, create new user instance
      and redirect to users page """
 
@@ -66,11 +66,11 @@ def show_user_info(user_id):
        redirect to 404 if id not found"""
 
     user = User.query.get_or_404(user_id)
-    return render_template("user-info.html", user=user)
+    return render_template("user-info.html", user=user, posts=user.posts)
 
 
 @app.route("/users/<int:user_id>/edit")
-def show_edit_form(user_id):
+def show_edit_user_info_form(user_id):
     """ show the edit information form for the given user id"""
 
     user = User.query.get_or_404(user_id)
@@ -105,3 +105,25 @@ def delete_user(user_id):
     db.session.delete(user)
     db.session.commit()
     return redirect("/users")
+
+@app.route("/users/<int:user_id>/posts/new")
+def show_new_post_form(user_id):
+    """ show the create new post form"""
+    user = User.query.get_or_404(user_id)
+    return render_template("new-post.html", user=user)
+
+
+@app.route("/users/<int:user_id>/posts/new", methods=["POST"])
+def new_post_submission(user_id):
+    title = request.form['title']
+    if not title:
+        flash("Please enter a title")
+        return redirect(f"/users/{user_id}/posts/new")
+    content = request.form['content']
+    if not content:
+        flash("Please enter a content")
+        return redirect(f"/users/{user_id}/posts/new")
+    new_post = Post(title=title, content=content, user_id=user_id)
+    db.session.add(new_post)
+    db.session.commit()
+    return redirect(f"/users/{user_id}")

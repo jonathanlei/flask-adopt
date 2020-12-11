@@ -1,7 +1,7 @@
 """Blogly application."""
 
 from flask import Flask, redirect, render_template, session, request, flash
-from models import User, Post, db, connect_db
+from models import User, Post, PostTag, Tag, db, connect_db
 from flask_debugtoolbar import DebugToolbarExtension
 
 app = Flask(__name__)
